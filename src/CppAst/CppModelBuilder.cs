@@ -251,6 +251,12 @@ namespace CppAst
             {
                 _containers.Add(typeKey, containerContext);
             }
+
+            if (symbol is CppElement)
+            {
+                UserCustom.UserParseElement(cursor, CXCursor.Null, symbol as CppElement);
+            }
+
             return containerContext;
         }
 
@@ -456,6 +462,8 @@ namespace CppAst
             {
                 TryToConvertAttributesToMetaAttributes(container);
             }
+
+            UserCustom.UserParseElement(cursor, parent, element);
 
             return CXChildVisitResult.CXChildVisit_Continue;
         }
