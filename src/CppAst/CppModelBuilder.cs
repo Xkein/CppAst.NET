@@ -296,6 +296,10 @@ namespace CppAst
                 context.IsChildrenVisited = true;
                 cursor.VisitChildren(VisitMember, new CXClientData((IntPtr)data));
             }
+            if (cursor.IsThisDeclarationADefinition)
+            {
+                AssignSourceSpan(cursor, cppStruct);
+            }
             return cppStruct;
         }
 
@@ -450,7 +454,8 @@ namespace CppAst
 
             if (element != null)
             {
-                bool isForwardDeclaration = (element is CppClass || element is CppEnum) && !cursor.IsDefinition;
+                // https://github.com/xoofx/CppAst.NET/issues/100
+                bool isForwardDeclaration = (element is CppClass || element is CppEnum) && !cursor.IsThisDeclarationADefinition;
                 if (!isForwardDeclaration) {
                     AssignSourceSpan(cursor, element);
                 }
@@ -1239,6 +1244,10 @@ namespace CppAst
                 ParseAttributes(cursor, cppEnum, false);
                 context.IsChildrenVisited = true;
                 cursor.VisitChildren(VisitMember, new CXClientData((IntPtr)data));
+            }
+            if (cursor.IsThisDeclarationADefinition)
+            {
+                AssignSourceSpan(cursor, cppEnum);
             }
             return cppEnum;
         }
