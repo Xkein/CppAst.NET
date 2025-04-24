@@ -259,7 +259,7 @@ namespace CppAst
 
             if (symbol is CppElement)
             {
-                UserCustom.UserParseElement(cursor, CXCursor.Null, symbol as CppElement);
+                UserCustom.UserParseElement(new UserCustomParseContext((CppGlobalDeclarationContainer)_rootContainerContext.DeclarationContainer, cursor, CXCursor.Null, data), symbol as CppElement);
             }
 
             return containerContext;
@@ -478,7 +478,7 @@ namespace CppAst
                 TryToConvertAttributesToMetaAttributes(container);
             }
 
-            UserCustom.UserParseElement(cursor, parent, element);
+            UserCustom.UserParseElement(new UserCustomParseContext((CppGlobalDeclarationContainer)_rootContainerContext.DeclarationContainer, cursor, parent, data), element);
 
             return CXChildVisitResult.CXChildVisit_Continue;
         }
