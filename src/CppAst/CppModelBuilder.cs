@@ -295,6 +295,19 @@ namespace CppAst
                 cppStruct.AlignOf = (int)cursor.Type.AlignOf;
                 context.IsChildrenVisited = true;
                 cursor.VisitChildren(VisitMember, new CXClientData((IntPtr)data));
+
+                if (cursor.DeclKind == CX_DeclKind.CX_DeclKind_ClassTemplateSpecialization)
+                {
+                    if (cursor.TemplateSpecializationKind == CX_TemplateSpecializationKind.CX_TSK_ImplicitInstantiation)
+                    {
+                        int num = cursor.NumDecls;
+                        for (uint idx = 0; idx < num; idx++)
+                        {
+                            CXCursor cursorDecl = cursor.GetDecl(idx);
+                            VisitMember(cursorDecl, cursorDecl.SemanticParent, data);
+                        }
+                    }
+                }
             }
             if (cursor.IsThisDeclarationADefinition)
             {
