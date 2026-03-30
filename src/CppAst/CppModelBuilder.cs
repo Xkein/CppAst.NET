@@ -2012,6 +2012,17 @@ namespace CppAst
                 return isParsingParameter ? CXChildVisitResult.CXChildVisit_Continue : CXChildVisitResult.CXChildVisit_Recurse;
             }, new CXClientData((IntPtr)data));
 
+            // fallback to get parameter types if we can't get any parameter through visiting children, which may happen for function pointer types
+            if (cppFunction.Parameters.Count == 0 && type.NumArgTypes > 0)
+            {
+                for (uint i = 0; i < type.NumArgTypes; i++)
+                {
+                    var argType = type.GetArgType(i);
+                    var parameterType = GetCppType(argType.Declaration, argType, type.Declaration, data);
+                    cppFunction.Parameters.Add(new CppParameter(parameterType, "_" + i));
+                }
+            }
+
             return cppFunction;
         }
 
