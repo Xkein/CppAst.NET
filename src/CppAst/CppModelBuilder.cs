@@ -300,11 +300,17 @@ namespace CppAst
                 {
                     if (cursor.TemplateSpecializationKind == CX_TemplateSpecializationKind.CX_TSK_ImplicitInstantiation)
                     {
-                        int num = cursor.NumDecls;
-                        for (uint idx = 0; idx < num; idx++)
+                        int numDecls = cursor.NumDecls;
+                        for (uint idx = 0; idx < numDecls; idx++)
                         {
                             CXCursor cursorDecl = cursor.GetDecl(idx);
                             VisitMember(cursorDecl, cursorDecl.SemanticParent, data);
+                        }
+                        int numBaseClasses = cursor.NumBases;
+                        for (uint idx = 0; idx < numBaseClasses; idx++)
+                        {
+                            CXCursor cursorBase = cursor.GetBase(idx);
+                            VisitMember(cursorBase, cursor, data);
                         }
                     }
                 }
