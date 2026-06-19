@@ -1196,10 +1196,10 @@ namespace CppAst
                     expr = new CppRawExpression(CppExpressionKind.ObjCSelf);
                     AppendTokensToExpression(cursor, expr);
                     break;
-                case CXCursorKind.CXCursor_OMPArraySectionExpr:
-                    expr = new CppRawExpression(CppExpressionKind.OMPArraySection);
-                    AppendTokensToExpression(cursor, expr);
-                    break;
+                //case CXCursorKind.CXCursor_OMPArraySectionExpr:
+                //    expr = new CppRawExpression(CppExpressionKind.OMPArraySection);
+                //    AppendTokensToExpression(cursor, expr);
+                //    break;
                 case CXCursorKind.CXCursor_ObjCAvailabilityCheckExpr:
                     expr = new CppRawExpression(CppExpressionKind.ObjCAvailabilityCheck);
                     AppendTokensToExpression(cursor, expr);
