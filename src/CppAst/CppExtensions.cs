@@ -28,6 +28,7 @@ namespace CppAst
         public static string GetDisplayName(this CppType type)
         {
             if (type is CppClass cppClass) return cppClass.FullName;
+            if (type is CppEnum cppEnum) return cppEnum.FullName;
             if (type is ICppMember member) return member.Name;
             return type.ToString();
         }
